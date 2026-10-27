@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,9 +12,9 @@
         extend: {
           colors: {
             cappuccino: {
-              50:"#FDFBF7",100:"#F7F1E5",200:"#EADBC8",300:"#DAC0A3",
-              400:"#C6A982",500:"#B08968",600:"#9C6644",700:"#7F4F24",
-              800:"#582F0E",900:"#3A1E08",
+              50: "#FDFBF7", 100: "#F7F1E5", 200: "#EADBC8", 300: "#DAC0A3",
+              400: "#C6A982", 500: "#B08968", 600: "#9C6644", 700: "#7F4F24",
+              800: "#582F0E", 900: "#3A1E08",
             },
           },
         },
@@ -22,28 +23,93 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    .custom-scrollbar::-webkit-scrollbar{width:6px}
-    .custom-scrollbar::-webkit-scrollbar-track{background:#f7f1e5}
-    .custom-scrollbar::-webkit-scrollbar-thumb{background:#b08968;border-radius:4px}
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f7f1e5
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #b08968;
+      border-radius: 4px
+    }
+
     /* Toggle switch */
-    .toggle-wrap{position:relative;display:inline-block;width:54px;height:28px}
-    .toggle-wrap input{display:none}
-    .toggle-slider{position:absolute;cursor:pointer;inset:0;background:#fca5a5;border-radius:999px;transition:background .3s}
-    .toggle-slider::before{content:"";position:absolute;left:4px;top:4px;width:20px;height:20px;background:white;border-radius:50%;transition:transform .3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
-    .toggle-wrap input:checked + .toggle-slider{background:#6ee7b7}
-    .toggle-wrap input:checked + .toggle-slider::before{transform:translateX(26px)}
+    .toggle-wrap {
+      position: relative;
+      display: inline-block;
+      width: 54px;
+      height: 28px
+    }
+
+    .toggle-wrap input {
+      display: none
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: #fca5a5;
+      border-radius: 999px;
+      transition: background .3s
+    }
+
+    .toggle-slider::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: transform .3s;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .25)
+    }
+
+    .toggle-wrap input:checked+.toggle-slider {
+      background: #6ee7b7
+    }
+
+    .toggle-wrap input:checked+.toggle-slider::before {
+      transform: translateX(26px)
+    }
+
     /* Status badges */
-    .badge-ok{background:#d1fae5;color:#065f46;border:1px solid #6ee7b7}
-    .badge-out{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+    .badge-ok {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #6ee7b7
+    }
+
+    .badge-out {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5
+    }
+
     /* Toast */
-    #adminToast{position:fixed;top:1.25rem;right:1.25rem;z-index:9999}
-    #adminToast.hidden{display:none}
+    #adminToast {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.25rem;
+      z-index: 9999
+    }
+
+    #adminToast.hidden {
+      display: none
+    }
   </style>
 </head>
+
 <body class="bg-cappuccino-50 text-cappuccino-900 font-sans min-h-screen flex flex-col">
 
   <!-- Toast -->
-  <div id="adminToast" class="hidden flex items-center gap-2 bg-cappuccino-900 text-white px-4 py-3 rounded-xl shadow-2xl text-sm border border-cappuccino-700">
+  <div id="adminToast"
+    class="hidden flex items-center gap-2 bg-cappuccino-900 text-white px-4 py-3 rounded-xl shadow-2xl text-sm border border-cappuccino-700">
     <i class="fas fa-check-circle text-green-400"></i>
     <span id="adminToastMsg">Tersimpan!</span>
   </div>
@@ -59,7 +125,7 @@
         <p class="text-xs text-cappuccino-400">Kue Pukis Baba</p>
       </div>
     </div>
-    <button onclick="sessionStorage.setItem('adminMode','1'); window.location.href='index.html';"
+    <button onclick="sessionStorage.setItem('adminMode','1'); window.location.href='menu.html';"
       class="bg-cappuccino-700 hover:bg-cappuccino-600 text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 transition">
       <i class="fas fa-arrow-left text-xs"></i> Kembali ke Menu
     </button>
@@ -74,19 +140,16 @@
         <h2 class="text-xl font-bold text-cappuccino-800">Manajemen Stok</h2>
       </div>
       <p class="text-xs text-cappuccino-500 mb-4">
-        Klik toggle untuk mengubah status stok. Perubahan disimpan otomatis dan langsung tampil di halaman menu pelanggan.
+        Klik toggle untuk mengubah status stok. Perubahan disimpan otomatis dan langsung tampil di halaman menu
+        pelanggan.
       </p>
       <div class="bg-white rounded-2xl shadow-sm border border-cappuccino-200 overflow-hidden">
-        <table class="w-full">
-          <thead class="bg-cappuccino-100 border-b border-cappuccino-200">
-            <tr>
-              <th class="px-5 py-3 text-left text-xs font-bold text-cappuccino-700 uppercase tracking-wide">Menu</th>
-              <th class="px-5 py-3 text-center text-xs font-bold text-cappuccino-700 uppercase tracking-wide">Status Stok</th>
-              <th class="px-5 py-3 text-center text-xs font-bold text-cappuccino-700 uppercase tracking-wide">Ubah</th>
-            </tr>
-          </thead>
-          <tbody id="stockTableBody"></tbody>
-        </table>
+        <!-- Card header -->
+        <div class="flex items-center justify-between bg-cappuccino-100 border-b border-cappuccino-200 px-4 py-3">
+          <span class="text-xs font-bold text-cappuccino-700 uppercase tracking-wide">Menu</span>
+          <span class="text-xs font-bold text-cappuccino-700 uppercase tracking-wide">Status &amp; Ubah</span>
+        </div>
+        <div id="stockTableBody"></div>
       </div>
     </section>
 
@@ -124,16 +187,16 @@
   <script>
     // Menu items (same IDs as menu.html)
     const MENU_ITEMS = [
-      {id:1,name:"PUKIS ORIGINAL"},{id:2,name:"PUKIS MESES"},
-      {id:3,name:"PUKIS MOCCA"},{id:4,name:"PUKIS REDVELVET"},
-      {id:5,name:"PUKIS PANDAN"},{id:6,name:"PUKIS KEJU"},
-      {id:7,name:"PUKIS OREO"},
+      { id: 1, name: "PUKIS ORIGINAL" }, { id: 2, name: "PUKIS MESES" },
+      { id: 3, name: "PUKIS MOCCA" }, { id: 4, name: "PUKIS REDVELVET" },
+      { id: 5, name: "PUKIS PANDAN" }, { id: 6, name: "PUKIS KEJU" },
+      { id: 7, name: "PUKIS OREO" },
     ];
 
     // ---- Stock helpers ----
     function getStock() {
       try { return JSON.parse(localStorage.getItem("pukisStockStatus") || "{}"); }
-      catch(e) { return {}; }
+      catch (e) { return {}; }
     }
     function setStock(s) { localStorage.setItem("pukisStockStatus", JSON.stringify(s)); }
 
@@ -151,34 +214,30 @@
     }
 
     function renderStockTable() {
-      const tbody = document.getElementById("stockTableBody");
-      tbody.innerHTML = "";
+      const container = document.getElementById("stockTableBody");
+      container.innerHTML = "";
       MENU_ITEMS.forEach(item => {
         const avail = isAvailable(item.id);
-        const tr = document.createElement("tr");
-        tr.className = "border-b border-cappuccino-100 hover:bg-cappuccino-50 transition-colors";
-        tr.innerHTML = `
-          <td class="px-5 py-4">
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-xl bg-cappuccino-100 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-cookie-bite text-cappuccino-500 text-sm"></i>
-              </div>
-              <span class="font-semibold text-cappuccino-900 text-sm">${item.name}</span>
+        const row = document.createElement("div");
+        row.className = "flex items-center justify-between px-4 py-3 border-b border-cappuccino-100 last:border-b-0 hover:bg-cappuccino-50 transition-colors";
+        row.innerHTML = `
+          <div class="flex items-center gap-3 flex-1 min-w-0">
+            <div class="w-8 h-8 rounded-xl bg-cappuccino-100 flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-cookie-bite text-cappuccino-500 text-sm"></i>
             </div>
-          </td>
-          <td class="px-5 py-4 text-center">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold ${avail ? "badge-ok" : "badge-out"}">
+            <span class="font-semibold text-cappuccino-900 text-sm leading-tight">${item.name}</span>
+          </div>
+          <div class="flex items-center gap-3 flex-shrink-0 ml-3">
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold whitespace-nowrap ${avail ? "badge-ok" : "badge-out"}">
               <i class="fas ${avail ? "fa-check-circle" : "fa-times-circle"} text-xs"></i>
-              ${avail ? "Tersedia" : "Sudah Habis"}
+              ${avail ? "Tersedia" : "Habis"}
             </span>
-          </td>
-          <td class="px-5 py-4 text-center">
-            <label class="toggle-wrap" title="Klik untuk ubah status">
+            <label class="toggle-wrap flex-shrink-0" title="Klik untuk ubah status">
               <input type="checkbox" ${avail ? "checked" : ""} onchange="toggleStock(${item.id})" />
               <span class="toggle-slider"></span>
             </label>
-          </td>`;
-        tbody.appendChild(tr);
+          </div>`;
+        container.appendChild(row);
       });
     }
 
@@ -204,24 +263,24 @@
       summaryBox.classList.remove("hidden");
 
       // Average rating
-      const avg = reviews.reduce((s,r) => s+(r.rating||0), 0) / reviews.length;
+      const avg = reviews.reduce((s, r) => s + (r.rating || 0), 0) / reviews.length;
       document.getElementById("avgRatingDisplay").textContent = avg.toFixed(1);
       document.getElementById("totalReviewDisplay").textContent = "dari " + reviews.length + " ulasan";
 
       const avgStarDiv = document.getElementById("avgStarDisplay");
       avgStarDiv.innerHTML = "";
-      for (let i=1;i<=5;i++) {
+      for (let i = 1; i <= 5; i++) {
         const s = document.createElement("i");
-        s.className = "fas fa-star " + (i<=Math.round(avg) ? "text-amber-400" : "text-cappuccino-200");
+        s.className = "fas fa-star " + (i <= Math.round(avg) ? "text-amber-400" : "text-cappuccino-200");
         avgStarDiv.appendChild(s);
       }
 
       // Rating bars
       const barsEl = document.getElementById("ratingBarsContainer");
       barsEl.innerHTML = "";
-      for (let star=5; star>=1; star--) {
-        const cnt = reviews.filter(r=>(r.rating||0)===star).length;
-        const pct = Math.round((cnt/reviews.length)*100);
+      for (let star = 5; star >= 1; star--) {
+        const cnt = reviews.filter(r => (r.rating || 0) === star).length;
+        const pct = Math.round((cnt / reviews.length) * 100);
         barsEl.innerHTML += `
           <div class="flex items-center gap-2 text-xs">
             <span class="text-cappuccino-700 font-bold w-3 text-right">${star}</span>
@@ -236,11 +295,11 @@
       // Review cards
       container.innerHTML = "";
       reviews.slice().reverse().forEach((r, idx) => {
-        const filled = "★".repeat(r.rating||0);
-        const empty  = "☆".repeat(5-(r.rating||0));
+        const filled = "★".repeat(r.rating || 0);
+        const empty = "☆".repeat(5 - (r.rating || 0));
         const d = new Date(r.id);
-        const dateStr = d.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
-        const timeStr = d.toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"});
+        const dateStr = d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+        const timeStr = d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
         const displayName = r.name ? r.name : ("Pelanggan #" + (reviews.length - idx));
         const initials = r.name ? r.name.charAt(0).toUpperCase() : "?";
         const div = document.createElement("div");
@@ -256,7 +315,7 @@
                   <p class="font-bold text-cappuccino-900 text-sm">${displayName}</p>
                   <div class="flex items-center gap-1 mt-0.5">
                     <span class="text-amber-400 text-sm">${filled}${empty}</span>
-                    <span class="text-xs text-cappuccino-500 font-semibold">${r.rating||0}/5</span>
+                    <span class="text-xs text-cappuccino-500 font-semibold">${r.rating || 0}/5</span>
                   </div>
                 </div>
                 <div class="flex items-center gap-2 flex-shrink-0">
@@ -289,11 +348,12 @@
       const t = document.getElementById("adminToast");
       document.getElementById("adminToastMsg").textContent = msg;
       t.classList.remove("hidden");
-      setTimeout(()=>t.classList.add("hidden"), 3000);
+      setTimeout(() => t.classList.add("hidden"), 3000);
     }
 
     renderStockTable();
     renderReviews();
   </script>
 </body>
+
 </html>
