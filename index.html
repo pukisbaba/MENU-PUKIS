@@ -194,87 +194,9 @@
           }
         }
 
-        function renderUserReviews() {
-          const container = document.getElementById('userReviewsContainer');
-          const summaryBox = document.getElementById('reviewSummaryBox');
-          if (!container) return;
-          const reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
-          container.innerHTML = '';
-
-          if (reviews.length === 0) {
-            if (summaryBox) summaryBox.classList.add('hidden');
-            container.innerHTML = '<div class="text-center py-8 bg-white rounded-2xl border border-cappuccino-100"><i class="fas fa-comment-slash text-3xl text-cappuccino-300 mb-2"></i><p class="text-cappuccino-500 text-sm">Belum ada review. Jadilah yang pertama!</p></div>';
-            return;
-          }
-
-          // Show & fill summary box
-          if (summaryBox) {
-            summaryBox.classList.remove('hidden');
-            const avg = reviews.reduce((s, r) => s + (r.rating || 0), 0) / reviews.length;
-            const avgEl = document.getElementById('reviewAvgScore');
-            const starsEl = document.getElementById('reviewAvgStars');
-            const totalEl = document.getElementById('reviewTotalLabel');
-            if (avgEl) avgEl.textContent = avg.toFixed(1);
-            if (totalEl) totalEl.textContent = 'dari ' + reviews.length + ' ulasan';
-            if (starsEl) {
-              starsEl.innerHTML = '';
-              for (let i = 1; i <= 5; i++) {
-                const s = document.createElement('i');
-                s.className = 'fas fa-star ' + (i <= Math.round(avg) ? 'text-amber-400' : 'text-cappuccino-200');
-                starsEl.appendChild(s);
-              }
-            }
-            const barsEl = document.getElementById('reviewBarsContainer');
-            if (barsEl) {
-              barsEl.innerHTML = '';
-              for (let star = 5; star >= 1; star--) {
-                const cnt = reviews.filter(r => (r.rating || 0) === star).length;
-                const pct = Math.round((cnt / reviews.length) * 100);
-                barsEl.innerHTML += `<div class="flex items-center gap-2 text-xs">
-                    <span class="text-cappuccino-700 font-bold w-3 text-right">${star}</span>
-                    <i class="fas fa-star text-amber-400" style="font-size:10px"></i>
-                    <div class="flex-grow bg-cappuccino-100 rounded-full h-2.5 overflow-hidden">
-                      <div class="bg-amber-400 h-2.5 rounded-full" style="width:${pct}%"></div>
-                    </div>
-                    <span class="text-cappuccino-500 w-5 text-right">${cnt}</span>
-                  </div>`;
-              }
-            }
-          }
-
-          // Review cards
-          reviews.slice().reverse().forEach((r, idx) => {
-            const filled = '★'.repeat(r.rating || 0);
-            const empty = '☆'.repeat(5 - (r.rating || 0));
-            const d = new Date(r.id);
-            const dateStr = d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-            const div = document.createElement('div');
-            div.className = 'p-4 bg-white rounded-2xl shadow-sm border border-cappuccino-100';
-            div.innerHTML = `
-                <div class="flex items-start gap-3 mb-2">
-                  <div class="w-9 h-9 rounded-full bg-cappuccino-100 flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-user text-cappuccino-400"></i>
-                  </div>
-                  <div class="flex-grow min-w-0">
-                    <div class="flex items-center justify-between flex-wrap gap-1">
-                      <p class="font-bold text-cappuccino-900 text-sm">${r.name ? r.name : 'Pelanggan #' + (reviews.length - idx)}</p>
-                      <span class="text-xs text-cappuccino-400">${dateStr}</span>
-                    </div>
-                    <div class="flex items-center gap-1 mt-0.5">
-                      <span class="text-amber-400 text-sm">${filled}${empty}</span>
-                      <span class="text-xs text-cappuccino-500 font-semibold">${r.rating || 0}/5</span>
-                    </div>
-                  </div>
-                </div>
-                <p class="text-sm text-cappuccino-800 leading-relaxed mb-2">${r.text}</p>
-                ${r.photo ? `<img src="${r.photo}" class="w-28 h-28 object-cover rounded-xl border border-cappuccino-200"/>` : ''}
-              `;
-            container.appendChild(div);
-          });
-        }
-
 
       </script>
+
 
       <!-- ADMIN LOGIN MODAL (z-index 60, above sidebar z-50) -->
       <div id="adminLoginModal" class="fixed inset-0 z-[60] bg-black/60 hidden flex items-center justify-center p-4">
@@ -938,7 +860,13 @@
       renderMenu(menuData);
       renderBoxPackingList();
       updateCartUI();
+
+      // Jika datang dari halaman Admin, langsung masuk ke halaman menu (skip landing)
+      if (sessionStorage.getItem("adminMode") === "1") {
+        enterMenu();
+      }
     });
+
 
     // Jendela buka menu weekend: Jumat 12:00 s/d Minggu 12:00
     // Mengembalikan {start, end} jika sekarang berada di dalam jendela, selain itu null
@@ -1634,9 +1562,12 @@ Terima kasih telah memesan di Kue Pukis Baba!`;
     }
 
     function openWriteReviewFromPage() {
-      // Open review form on top of reviews page
+      // Open review form on top of reviews page (sama seperti openReviewModal)
       const reviewModal = document.getElementById('reviewModal');
-      if (reviewModal) reviewModal.classList.remove('hidden');
+      if (reviewModal) {
+        reviewModal.classList.remove('hidden');
+        reviewModal.classList.add('flex');
+      }
     }
 
     function deleteReview(reviewId) {
